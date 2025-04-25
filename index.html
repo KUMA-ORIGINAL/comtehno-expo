@@ -118,21 +118,93 @@
         </div>
     </div>
   </section>
-<!-- 
-  <section id="demo" class="section section-highlight">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-icon">🎬</div>
-        <h2 class="section-title">Демонстрация на EXPO</h2>
+
+  <div class="comparison-sections">
+    <section class="comparison-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-icon">📚</div>
+          <h2 class="section-title">Типичные сайты колледжей</h2>
+        </div>
+        <div class="slider-wrapper">
+          <div class="slider">
+            <div class="slides">
+              <img src="https://images.pexels.com/photos/301926/pexels-photo-301926.jpeg" alt="Старый сайт колледжа 1">
+              <img src="https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg" alt="Старый сайт колледжа 2">
+              <img src="https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg" alt="Старый сайт колледжа 3">
+            </div>
+            <button class="slider-btn prev" aria-label="Предыдущий слайд">❮</button>
+            <button class="slider-btn next" aria-label="Следующий слайд">❯</button>
+            <div class="slider-dots"></div>
+          </div>
+          <div class="slider-content">
+            <ul class="feature-list">
+              <li>Устаревший дизайн</li>
+              <li>Сложная навигация</li>
+              <li>Не адаптирован для телефонов</li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <p class="section-text">Мы представим:</p>
-      <ul class="feature-list highlight-list">
-        <li class="feature-item">Рабочий прототип сайта</li>
-        <li class="feature-item">Интерфейс админки</li>
-        <!-- <li class="feature-item">Сценарии адаптации под другие колледжи</li> -->
-      <!-- </ul> -->
-    <!-- </div> -->
-  <!-- </section> --> -->
+    </section>
+
+    <section class="comparison-section highlight">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-icon">✨</div>
+          <h2 class="section-title">Наше решение</h2>
+        </div>
+        <div class="slider-wrapper">
+          <div class="slider">
+            <div class="slides">
+              <img src="./img/comtehno-1.png" alt="Наш современный сайт 1">
+              <img src="./img/comtehno-2.png" alt="Наш современный сайт 2">
+              <img src="./img/comtehno-3.png" alt="Наш современный сайт 3">
+            </div>
+            <button class="slider-btn prev" aria-label="Предыдущий слайд">❮</button>
+            <button class="slider-btn next" aria-label="Следующий слайд">❯</button>
+            <div class="slider-dots"></div>
+          </div>
+          <div class="slider-content">
+            <ul class="feature-list">
+              <li>Современный интерфейс</li>
+              <li>Интуитивная навигация</li>
+              <li>Адаптирован для всех устройств</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="comparison-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-icon">⚙️</div>
+          <h2 class="section-title">Удобная админка</h2>
+        </div>
+        <div class="slider-wrapper">
+          <div class="slider">
+            <div class="slides">
+              <img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg" alt="Удобная админка 1">
+              <img src="https://images.pexels.com/photos/1181243/pexels-photo-1181243.jpeg" alt="Удобная админка 2">
+              <img src="https://images.pexels.com/photos/1181245/pexels-photo-1181245.jpeg" alt="Удобная админка 3">
+            </div>
+            <button class="slider-btn prev" aria-label="Предыдущий слайд">❮</button>
+            <button class="slider-btn next" aria-label="Следующий слайд">❯</button>
+            <div class="slider-dots"></div>
+          </div>
+          <div class="slider-content">
+            <ul class="feature-list">
+              <li>Простое управление</li>
+              <li>Быстрое обновление</li>
+              <li>Понятный интерфейс</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
 
   <section id="development" class="section section-alt">
     <div class="container">
@@ -186,6 +258,98 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    document.querySelectorAll('.slider').forEach(slider => {
+      const slides = slider.querySelector('.slides');
+      const images = slides.querySelectorAll('img');
+      const prevBtn = slider.querySelector('.prev');
+      const nextBtn = slider.querySelector('.next');
+      const dots = slider.querySelector('.slider-dots');
+      let currentSlide = 0;
+      let autoplayInterval;
+
+      // Create dots
+      images.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('slider-dot');
+        dot.setAttribute('aria-label', `Перейти к слайду ${index + 1}`);
+        if (index === 0) dot.classList.add('active');
+        dots.appendChild(dot);
+      });
+
+      function updateSlider(index) {
+        currentSlide = index;
+        slides.style.transform = `translateX(-${index * 100}%)`;
+        
+        // Update dots
+        slider.querySelectorAll('.slider-dot').forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+        });
+      }
+
+      function nextSlide() {
+        updateSlider((currentSlide + 1) % images.length);
+      }
+
+      function prevSlide() {
+        updateSlider((currentSlide - 1 + images.length) % images.length);
+      }
+
+      // Event listeners
+      prevBtn.addEventListener('click', () => {
+        prevSlide();
+        resetAutoplay();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetAutoplay();
+      });
+
+      slider.querySelectorAll('.slider-dot').forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          updateSlider(index);
+          resetAutoplay();
+        });
+      });
+
+      // Touch support
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      slider.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      slider.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) nextSlide();
+        else if (touchEndX - touchStartX > 50) prevSlide();
+      }, { passive: true });
+
+      // Autoplay
+      function startAutoplay() {
+        autoplayInterval = setInterval(nextSlide, 5000);
+      }
+
+      function resetAutoplay() {
+        clearInterval(autoplayInterval);
+        startAutoplay();
+      }
+
+      startAutoplay();
+
+      // Pause autoplay when tab is not visible
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          clearInterval(autoplayInterval);
+        } else {
+          startAutoplay();
+        }
+      });
+    });
+  </script>
 
   <script>
     document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
